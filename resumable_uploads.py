@@ -6,8 +6,9 @@ https://dev.to/sethmlarson/python-data-streaming-to-google-cloud-storage-with-re
 from google.auth.transport.requests import AuthorizedSession
 from google.resumable_media import requests, common
 from google.cloud import storage
-import io
+import io, os
 from tqdm import tqdm
+
 
 
 class GCSObjectStreamUpload(object):
@@ -91,10 +92,14 @@ class GCSObjectStreamUpload(object):
 if __name__ == '__main__':
     client = storage.Client()
     bucket_name = 'bucketname'
-    filenames = ['data/image_1.tif']
+    src_path = 'file_source_path'
+    dst_path = 'file_destination_path'
+
+    filenames = ['image_1.tif']
 
     for filename in filenames:
         print('Sending file: {}'.format(filename))
-        with GCSObjectStreamUpload(client=client, bucket_name=bucket_name, blob_name=filename) as s:
-            cur_data = io.BytesIO(open(filename, 'rb').read()).read()
+        with GCSObjectStreamUpload(client=client, bucket_name=bucket_name,
+                                   blob_name=os.path.join(dst_path,filename)) as s:
+            cur_data = io.BytesIO(open(os.path.join(src_path,filename), 'rb').read()).read()
             s.write(cur_data)

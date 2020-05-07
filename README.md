@@ -10,7 +10,7 @@ This is a simple python file adapted from [here](https://dev.to/sethmlarson/pyth
 pip install -r requirements.txt
 ```
 
-- Specify bucket name and the list of files to be sent.
+- Specify bucket name, the list of files to be sent and the source and destination file paths.
 
 - run the [resumable_uploads.py](resumable_uploads.py) script:
 
